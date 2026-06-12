@@ -61,7 +61,7 @@ Each line is a JSON object with an ISO `timestamp`, an `operation`, and the chan
 {"timestamp":"2026-05-05T16:33:16.619Z","operation":"create_entity","entity":{"name":"Hook Test","entityType":"test"}}
 ```
 
-Supported operations are `create_entity`, `add_observations`, `create_relation`, `delete_entities`, `delete_relations`, `delete_observations`, and `set_importance`.
+Supported operations are `create_entity`, `add_observations`, `create_relation`, `delete_entities`, `delete_relations`, `delete_observations`, and `set_importance`. Delete events are emitted only for records that were actually removed.
 
 Hook write failures are logged to stderr but do not fail the graph mutation that already succeeded. Consumers that require strict reconciliation should combine the hook with occasional `read_graph` or targeted `open_nodes` checks.
 

@@ -131,9 +131,9 @@ export class KnowledgeGraphManager {
      * @returns {Promise<void>}
      */
     async deleteEntities(names) {
-        await this.#repository.deleteEntities(names);
-        if (names.length) {
-            await this.#notifyWrite({ operation: 'delete_entities', entityNames: names });
+        const deletedNames = await this.#repository.deleteEntities(names);
+        if (deletedNames.length) {
+            await this.#notifyWrite({ operation: 'delete_entities', entityNames: deletedNames });
         }
     }
 
@@ -145,9 +145,9 @@ export class KnowledgeGraphManager {
      * @returns {Promise<void>}
      */
     async deleteRelations(relations) {
-        await this.#repository.deleteRelations(relations);
-        if (relations.length) {
-            await this.#notifyWrite({ operation: 'delete_relations', relations });
+        const deletedRelations = await this.#repository.deleteRelations(relations);
+        if (deletedRelations.length) {
+            await this.#notifyWrite({ operation: 'delete_relations', relations: deletedRelations });
         }
     }
 
@@ -162,9 +162,9 @@ export class KnowledgeGraphManager {
         for (const { entityName, observations } of list) {
             const entityId = await this.#repository.getEntityId(entityName);
             if (!entityId) continue;
-            await this.#repository.deleteObservations(entityId, observations);
-            if (observations.length) {
-                await this.#notifyWrite({ operation: 'delete_observations', entityName, observations });
+            const deletedObservations = await this.#repository.deleteObservations(entityId, observations);
+            if (deletedObservations.length) {
+                await this.#notifyWrite({ operation: 'delete_observations', entityName, observations: deletedObservations });
             }
         }
     }
